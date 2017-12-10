@@ -7,3 +7,4 @@ Author: Chris Witko <chris.witko@gmail.com>
 
 Website: https://chriswitko.com
 
+Article: https://medium.com/@chriswitko/how-i-built-monocle-radio-app-for-mac-in-2-hours-81e144676318
