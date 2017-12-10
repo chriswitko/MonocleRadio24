@@ -1,0 +1,33 @@
+<html>
+
+<head>
+  <title>Monocle Radio 24</title>
+  <link crossorigin="anonymous" href="master.css" media="all" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="main">
+    <div id="cover">
+    </div>
+    <div class="marquee">
+      <span>
+        <span id="artist"></span>
+        <span id="space"> &middot; </span>
+        <span id="title"></span>
+      </span>
+    </div>
+    <div class="player-embed">
+      <audio id="player" controls>
+        <source id="mp3_src" src="" />
+      </audio>
+    </div>
+    <div class="menu">
+      <a class="config" href="#" onclick="return MonocleRadio.showMenu();">
+        <img src="images/more.png" width="30" /
+      ></a>
+    </div>
+  </div>
+  <script type="text/javascript" src="app.bundle.js"></script>
+</body>
+
+</html>
