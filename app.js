@@ -99,7 +99,8 @@
 
   window.MonocleRadio = radio
   window.monocle_24 = radio.monocle_24
-  window.setInterval(this.loadFeed, 60000)
+  window.setInterval(radio.loadFeed, 20000)
+  // end
 
   radio.init()
 })()
