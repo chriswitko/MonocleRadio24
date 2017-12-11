@@ -44,7 +44,11 @@
       ipc.send('show-config-menu')
     }
 
-    this.refreshRadio = _ => {
+    this.reloadRadio = _ => {
+      this.refreshRadio(true)
+    }
+
+    this.refreshRadio = (reload = false) => {
       const sourceUrl = 'https://radio.monocle.com/live'
       const audio = this.$$('#player')
       const mp3Src = this.$$('#mp3_src')
@@ -53,8 +57,11 @@
       audio.pause()
       audio.load() // suspends and restores all audio element
 
-      // audio[0].play(); changed based on Sprachprofi's comment below
-      audio.oncanplaythrough = audio.play()
+      if (reload) {
+        audio.play()
+      } else {
+        audio.oncanplaythrough = audio.play()
+      }
       /****************/
     }
 
@@ -87,7 +94,11 @@
     }
 
     this.init = _ => {
-      ipc.on('reset-player', _ => window.refreshRadio())
+      console.log('init code')
+      ipc.addListener('reset-player', _ => {
+        console.log('yep')
+        this.reloadRadio()
+      })
 
       this.refreshRadio()
       this.loadFeed()

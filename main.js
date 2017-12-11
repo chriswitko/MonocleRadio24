@@ -32,7 +32,7 @@ const mb = menubar({
   backgroundColor: '#000000'
 })
 
-mb.on('ready', function () {
+mb.on('ready', _ => {
   return analytics.pageview('http://monocleradio.com', '/home', 'Home App')
     .then((response) => {
       return response
@@ -41,7 +41,12 @@ mb.on('ready', function () {
     })
 })
 
-ipc.on('resize-window', function (event, arg) {
+mb.on('after-show', _ => {
+  ipc.emit('reset-player')
+  mb.window.webContents.send('reset-player')
+})
+
+ipc.on('resize-window', (event, arg) => {
   mb.setOption('height', arg.height)
   mb.window.setContentSize(width, arg.height, true)
 })
