@@ -1,6 +1,7 @@
 (function () {
   const ipc = require('electron').ipcRenderer
   let lastHeight = 0
+  let lastPaused = -1
 
   const MonocleRadio = function () {
     this.$$ = sel => document.querySelector(sel)
@@ -45,7 +46,23 @@
     }
 
     this.reloadRadio = _ => {
-      this.refreshRadio(true)
+      if (this.shouldRefreshRadio()) {
+        console.log('refreshing radio')
+        this.refreshRadio(true)
+      } else {
+        console.log('no refresh needed')
+      }
+    }
+
+    this.shouldRefreshRadio = _ => {
+      if (lastPaused !== -1) {
+        let now = new Date().getTime()
+        let diff = parseInt((now - lastPaused) / 1000, 10)
+        if (diff > 60) { // should be 60
+          return true
+        }
+      }
+      return false
     }
 
     this.refreshRadio = (reload = false) => {
@@ -59,8 +76,14 @@
 
       if (reload) {
         audio.play()
-      } else {
-        audio.oncanplaythrough = audio.play()
+      }
+      audio.oncanplaythrough = audio.play()
+      audio.onpause = _ => {
+        lastPaused = new Date().getTime()
+      }
+      audio.onplay = _ => {
+        lastPaused = -1
+        this.loadFeed()
       }
       /****************/
     }
@@ -94,9 +117,7 @@
     }
 
     this.init = _ => {
-      console.log('init code')
       ipc.addListener('reset-player', _ => {
-        console.log('yep')
         this.reloadRadio()
       })
 

@@ -35,7 +35,7 @@
     "release": "electron-builder",
     "compile": "webpack",
     "electron:rebuild": "./node_modules/.bin/electron-rebuild",
-    "build": "rm -Rf MonocleRadio-darwin-x64 && electron-packager . MonocleRadio --platform=darwin --prune --overwrite --arch=x64 --icon=./icons/Icon.icns",
+    "build": "rm -Rf MonocleRadio-darwin-x64 && rm -Rf dist && mkdir dist && electron-packager . MonocleRadio --platform=darwin --prune --overwrite --arch=x64 --icon=./icons/Icon.icns",
     "start": "electron ."
   }
 }
