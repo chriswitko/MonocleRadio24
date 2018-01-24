@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
-package_lock.json
+package-lock.json
 MonocleRadio-darwin-x64
 dist
+yarn-lock.json

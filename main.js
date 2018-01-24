@@ -46,6 +46,11 @@ mb.on('after-show', _ => {
   mb.window.webContents.send('reset-player')
 })
 
+mb.on('after-hide', _ => {
+  ipc.emit('stop-headlines')
+  mb.window.webContents.send('stop-headlines')
+})
+
 ipc.on('resize-window', (event, arg) => {
   mb.setOption('height', arg.height)
   mb.window.setContentSize(width, arg.height, true)

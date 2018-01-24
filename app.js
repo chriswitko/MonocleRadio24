@@ -2,6 +2,7 @@
   const ipc = require('electron').ipcRenderer
   let lastHeight = 0
   let lastPaused = -1
+  let headlines = null
 
   const MonocleRadio = function () {
     this.$$ = sel => document.querySelector(sel)
@@ -83,7 +84,6 @@
       }
       audio.onplay = _ => {
         lastPaused = -1
-        this.loadFeed()
       }
       /****************/
     }
@@ -119,11 +119,21 @@
     this.init = _ => {
       ipc.addListener('reset-player', _ => {
         this.reloadRadio()
+        this.loadFeed()
+        headlines = window.setInterval(this.loadFeed, 20000)
+      })
+
+      ipc.addListener('stop-headlines', _ => {
+        if (headlines) {
+          window.clearInterval(headlines)
+        }
       })
 
       this.refreshRadio()
       this.loadFeed()
       this.updateSize()
+
+      headlines = window.setInterval(this.loadFeed, 20000)
     }
   }
 
@@ -131,7 +141,6 @@
 
   window.MonocleRadio = radio
   window.monocle_24 = radio.monocle_24
-  window.setInterval(radio.loadFeed, 20000)
   // end
 
   radio.init()
